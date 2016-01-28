@@ -12,12 +12,17 @@ in elliptic curve cryptography. It is intended to be used for instructive purpos
 both students and educators studying cryptography. Only primes less than 10,000 are
 supported, and only primes p under 300 are supported for generating lists of all curves
 (or all curves with prime order) mod p. This is because the number of curves mod p grows
-too fast as p grows. For larger primes, you can generate a fixed number of randomly
+too quickly as p grows. For larger primes, you can generate a fixed number of randomly
 chosen curves (general curves, or curves with prime order).
 
 A discrete logarithm of -1 indicates an error. This means that there is no solution. For
 example, if you choose a non-cyclic elliptic curve group and want to solve kG = P, where
 G generates a proper subgroup of E and P lies in a different coset, there will be no solution.
+
+The logarithm calculator just uses brute force. I considered using something like Pollard's
+Rho algorithm, but that would require  inverting numbers modulo n (or possibly modulo n/k
+for some k > 1 and checking the k possibilities modulo n). This could be done, but it's
+overkill for dealing with relatively small groups.
 
 I did not implement error detection for trying to do point arithmetic when the point is not
 on the curve. Perhaps it can be instructive to see what happens with the calculations in this
@@ -25,11 +30,6 @@ situation. But there is a function for listing all points on the curve. Instead 
 method using two nested loops, this uses one loop by computing x^3 + ax + b for each x in F_p,
 checking if this value is a quadratic residue or not, and if so, finding both square roots
 using the Tonelli-Shanks algorithm.
-
-The logarithm calculator just uses brute force. I considered using something like Pollard's
-Rho algorithm, but that would require  inverting numbers modulo n (or possibly modulo n/k
-for some k > 1 and checking the k possibilities modulo n). This could be done, but it's
-overkill for dealing with relatively small groups.
 
 The factoring method just uses brute force. I considered using something like Pollard's Rho
 algorithm for finding prime factors, but that would require creating a list of all factors
