@@ -1,8 +1,8 @@
 # Elliptic Curve Cryptography (ECC) Toolkit
 ![Elliptic Curve Cryptography (ECC) Toolkit](screenshot.jpg)
 
-Elliptic Curve Cryptography (ECC) Toolkit
-Last Updated: January 28, 2016
+Elliptic Curve Cryptography (ECC) Toolkit <br />
+Last Updated: January 28, 2016 <br />
 Author: Aaron Blumenfeld
 
 ## ABOUT:
