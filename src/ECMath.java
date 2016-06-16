@@ -145,6 +145,18 @@ public class ECMath {
 		return true;
 	}
 	
+	public static long randomPrime(int n) {
+		Random rand = new Random();
+		long rval = 0;
+		while(!isPrime(rval)) {
+			rval = Math.floorMod(rand.nextLong(), (int)Math.pow(10, n));
+			if(rval <= 3) {
+				rval = 0;
+			}
+		}
+		return rval;
+	}
+	
 	public static List<Long> allFactors(long N) { /* this is not optimally efficient, but this program is supposed to be
 	for instructive purposes only, and only uses fields with under 10000 elements */
 		List<Long> factors = new ArrayList<Long>();
@@ -164,5 +176,6 @@ public class ECMath {
 		for(long i = 100; i < 200; i++) {
 			System.out.println(i + " " + isPrime(i));
 		}
+		System.out.println(randomPrime(4));
 	}
 }

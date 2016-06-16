@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.swing.*;
 
@@ -80,7 +81,18 @@ public class MiscPanel extends JPanel {
 					_prime.setText("" + prime);
 				}
 			}
-		});	
+		});
+		
+		JButton randPrime = new JButton("Generate Random Prime");
+		randPrime.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Random rand = new Random();
+				int numDigits = Math.floorMod(rand.nextInt(), 4) + 1;
+				prime  = ECMath.randomPrime(numDigits); // prime with <= 4 digits
+				_prime.setText("" + prime);
+				output.setText(output.getText() + "p = " + prime + "\n");
+			}
+		});
 		
 		modularInputPan.add(new JLabel("a = "));
 		modularInputPan.add(_a);
@@ -88,6 +100,7 @@ public class MiscPanel extends JPanel {
 		modularInputPan.add(_b);
 		modularInputPan.add(new JLabel("p = "));
 		modularInputPan.add(_prime);
+		modularInputPan.add(randPrime);
 		
 		JPanel modularPan = new JPanel();
 		modularPan.setLayout(new FlowLayout());
