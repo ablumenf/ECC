@@ -33,6 +33,9 @@ public class ECMath {
 	
 	/* lazy way to compute a^(-1) (mod p) */
 	public static long inverse(long a, long p) { /* efficient enough since the numbers are pretty small */
+		if(a == 0) {
+			return -1;
+		}
 		return modExp(a, p-2, p);
 	}
 	

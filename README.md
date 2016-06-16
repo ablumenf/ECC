@@ -4,7 +4,7 @@
 ![Elliptic Curve Cryptography (ECC) Toolkit](misc.jpg)
 
 Elliptic Curve Cryptography (ECC) Toolkit <br>
-Last Updated: June 14, 2016 <br>
+Last Updated: June 15, 2016 <br>
 Author: Aaron Blumenfeld
 
 ## ABOUT:
@@ -41,6 +41,11 @@ There is also a Misc. tab, which includes support for exponentiation, inverses,
 and square roots (mod p), as well as addition, multiplication, inverses, and 
 exponentiation of polynomials in finite fields.
 
+When you enter a value in the GF(p) tab (other than the modulus, k, and n), it
+automatically gets reduced mod p. Similarly, when you enter a polynomial in
+the GF(2^r) and Misc. tabs, it automatically gets reduced mod the irreducible
+polynomial and R(z), respectively.
+
 ## FILES:
 
 - BinaryEllipticCurve.java: A class that implements elliptic curves over binary fields, including logarithms, orders, as well as lists of points. Also a few static methods for listing elliptic curves.
@@ -53,7 +58,3 @@ exponentiation of polynomials in finite fields.
 - Polynomial.java: A class that implements (sparse) Polynomials mod 2 using HashSets.
 - PolynomialPoint.java: A class that implements polynomial points. 3D points are used for LD projective coordinates, but they're only printed as 2D points. Point addition and multiplication are implemented here.
 - PrimePanel.java: An extension of JPanel for exploring elliptic curves over prime fields.
-
-## TO DO:
-
-- Add error detection for user input (e.g., entering "99 7" instead of "997").

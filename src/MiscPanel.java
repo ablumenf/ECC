@@ -39,24 +39,46 @@ public class MiscPanel extends JPanel {
 		final JTextField _a = new JTextField("" + a + "        ");
 		_a.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				a = Long.parseLong(_a.getText().trim());
-				output.setText(output.getText() + "a = " + a + "\n");
+				try {
+					a = Math.floorMod(Long.parseLong(_a.getText().trim()), prime);
+					output.setText(output.getText() + "a = " + a + "\n");
+					_a.setText("" + a);
+				} catch(NumberFormatException e1) {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_a.setText("" + a);
+				}
 			}
 		});
 		
 		final JTextField _b = new JTextField("" + b + "        ");
 		_b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				b = Long.parseLong(_b.getText().trim());
-				output.setText(output.getText() + "b = " + b + "\n");
+				try {
+					b = Math.floorMod(Long.parseLong(_b.getText().trim()), prime);
+					output.setText(output.getText() + "b = " + b + "\n");
+					_b.setText("" + b);
+				} catch(NumberFormatException e1) {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_b.setText("" + b);
+				}
 			}
 		});
 		
 		final JTextField _prime = new JTextField("" + prime + "        ");
 		_prime.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				prime = Long.parseLong(_prime.getText().trim());
-				output.setText(output.getText() + "p = " + prime + "\n");
+				try {
+					long temp = Long.parseLong(_prime.getText().trim());
+					if(ECMath.isPrime(temp)) {
+						prime = temp;
+						output.setText(output.getText() + "p = " + prime + "\n");
+					} else {
+						output.setText(output.getText() + temp + " is not prime. Please try again.\n");
+					}
+				} catch(NumberFormatException e1) {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_prime.setText("" + prime);
+				}
 			}
 		});	
 		
@@ -80,7 +102,12 @@ public class MiscPanel extends JPanel {
 		JButton inverse = new JButton("1/a (mod p)");
 		inverse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				output.setText(output.getText() + "1/" + a + " (mod " + prime + ") = " + ECMath.inverse(a,  prime) + "\n");
+				long rval = ECMath.inverse(a, prime);
+				if(rval != -1) {
+					output.setText(output.getText() + "1/" + a + " (mod " + prime + ") = " + rval + "\n");
+				} else {
+					output.setText(output.getText() + "1/" + a + " (mod " + prime + ") = undefined\n");
+				}
 			}
 		});
 		
@@ -105,27 +132,54 @@ public class MiscPanel extends JPanel {
 		final JTextField _p = new JTextField("" + p + "        ");
 		_p.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				p = new Polynomial(_p.getText().trim());
-				output.setText(output.getText() + "P(z) = " + p + "\n");
-				_p.setText("" + p);
+				String s = _p.getText().trim();
+				if(Polynomial.isValid(s)) {
+					try {
+						p = new Polynomial(s).mod(r);
+						output.setText(output.getText() + "P(z) = " + p + "\n");
+						_p.setText("" + p);
+					} catch(NumberFormatException e1) {
+						output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+						_p.setText("" + p);
+					}
+					
+				} else {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_p.setText("" + p);
+				}
 			}
 		});
 		
 		final JTextField _q = new JTextField("" + q + "        ");
 		_q.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				q = new Polynomial(_q.getText().trim());
-				output.setText(output.getText() + "Q(z) = " + q + "\n");
-				_q.setText("" + q);
+				String s = _q.getText().trim();
+				if(Polynomial.isValid(s)) {
+					try {
+						q = new Polynomial(s).mod(r);
+						output.setText(output.getText() + "Q(z) = " + q + "\n");
+						_q.setText("" + q);
+					} catch(NumberFormatException e1) {
+						output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+						_q.setText("" + q);
+					}
+				} else {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_q.setText("" + q);
+				}
 			}
 		});
 		
 		final JTextField _k = new JTextField("" + k + "        ");
 		_k.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				k = Long.parseLong(_k.getText().trim());
-				output.setText(output.getText() + "k = " + k + "\n");
-				_k.setText("" + k);
+				try {
+					k = Long.parseLong(_k.getText().trim());
+					output.setText(output.getText() + "k = " + k + "\n");
+					_k.setText("" + k);
+				} catch(NumberFormatException e1) {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+				}
 			}
 		});
 		
@@ -188,14 +242,14 @@ public class MiscPanel extends JPanel {
 		JButton add = new JButton("P(z) + Q(z) (mod R(z))");
 		add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				output.setText(output.getText() + "(" + p + ") + (" + q + ") = " + p.add(q).mod(r) + " (mod " + r + ")\n");
+				output.setText(output.getText() + "(" + p + ") + (" + q + ") = (" + p.add(q).mod(r) + ") (mod " + r + ")\n");
 			}
 		});
 		
 		JButton mult = new JButton("P(z) * Q(z) (mod R(z))");
 		mult.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				output.setText(output.getText() + "(" + p + ") * (" + q + ") = " + p.mult(q).mod(r) + " (mod " + r + ")\n");
+				output.setText(output.getText() + "(" + p + ") * (" + q + ") = (" + p.mult(q).mod(r) + ") (mod " + r + ")\n");
 			}
 		});
 		
@@ -209,7 +263,12 @@ public class MiscPanel extends JPanel {
 		JButton polyInverse = new JButton("1/P(z) (mod R(z))");
 		polyInverse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				output.setText(output.getText() + "1/(" + p + ") = (" + p.inverse(r) + ") (mod " + r + ")\n");
+				Polynomial rval = p.inverse(r);
+				if(rval != null) {
+					output.setText(output.getText() + "1/(" + p + ") = (" + p.inverse(r) + ") (mod " + r + ")\n");
+				} else {
+					output.setText(output.getText() + "1/(" + p + ") = undefined (mod " + r + ")\n");
+				}
 			}
 		});
 		

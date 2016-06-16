@@ -31,6 +31,11 @@
  * There is also a Misc. tab, which includes support for exponentiation, inverses,
  * and square roots (mod p), as well as addition, multiplication, inverses, and 
  * exponentiation of polynomials in finite fields.
+ * 
+ * When you enter a value in the GF(p) tab (other than the modulus, k, and n), it
+ * automatically gets reduced mod p. Similarly, when you enter a polynomial in
+ * the GF(2^r) and Misc. tabs, it automatically gets reduced mod the irreducible
+ * polynomial and R(z), respectively.
  */
 
 import java.awt.Dimension;

@@ -41,16 +41,40 @@ public class BinaryPanel extends JPanel {
 		final JTextField _a = new JTextField("" + a + "        ");
 		_a.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				a = new Polynomial(_a.getText().trim());
-				output.setText(output.getText() + new BinaryEllipticCurve(a, b, modulus) + "\n");
+				String s = _a.getText().trim();
+				if(Polynomial.isValid(s)) {
+					try {
+						a = new Polynomial(s).mod(modulus);
+						output.setText(output.getText() + new BinaryEllipticCurve(a, b, modulus) + "\n");
+						_a.setText("" + a);
+					} catch(NumberFormatException e1) {
+						output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+						_a.setText("" + a);
+					}
+				} else {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_a.setText("" + a);
+				}
 			}
 		});
 		
 		final JTextField _b = new JTextField("" + b + "        ");
 		_b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				b = new Polynomial(_b.getText().trim());
-				output.setText(output.getText() + new BinaryEllipticCurve(a, b, modulus) + "\n");
+				String s = _b.getText().trim();
+				if(Polynomial.isValid(s)) {
+					try {
+						b = new Polynomial(s).mod(modulus);
+						output.setText(output.getText() + new BinaryEllipticCurve(a, b, modulus) + "\n");
+						_b.setText("" + b);
+					} catch(NumberFormatException e1) {
+						output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+						_b.setText("" + b);
+					}
+				} else {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_b.setText("" + b);
+				}
 			}
 		});
 
@@ -112,56 +136,133 @@ public class BinaryPanel extends JPanel {
 		final JTextField _Gx = new JTextField("" + Gx + "        ");
 		_Gx.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Gx = new Polynomial(_Gx.getText().trim());
-				output.setText(output.getText() + "G = " + new PolynomialPoint(Gx, Gy, one) + "\n");
+				String s = _Gx.getText().trim();
+				if(Polynomial.isValid(s)) {
+					try {
+						Gx = new Polynomial(s).mod(modulus);
+						output.setText(output.getText() + "G = " + new PolynomialPoint(Gx, Gy, one) + "\n");
+						_Gx.setText("" + Gx);
+					} catch(NumberFormatException e1) {
+						output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+						_Gx.setText("" + Gx);
+					}
+				} else {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_Gx.setText("" + Gx);
+				}
 			}
 		});
 		
 		final JTextField _Gy = new JTextField("" + Gy + "        ");
 		_Gy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Gy = new Polynomial(_Gy.getText().trim());
-				output.setText(output.getText() + "G = " + new PolynomialPoint(Gx, Gy, one) + "\n");
+				String s = _Gy.getText().trim();
+				if(Polynomial.isValid(s)) {
+					try {
+						Gy = new Polynomial(s).mod(modulus);
+						output.setText(output.getText() + "G = " + new PolynomialPoint(Gx, Gy, one) + "\n");
+						_Gy.setText("" + Gy);
+					} catch(NumberFormatException e1) {
+						output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+						_Gy.setText("" + Gy);
+					}
+				} else {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_Gy.setText("" + Gy);
+				}
 			}
 		});
 		
 		final JTextField _Px = new JTextField("" + Px + "        ");
 		_Px.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Px = new Polynomial(_Px.getText().trim());
-				output.setText(output.getText() + "P = " + new PolynomialPoint(Px, Py, one) + "\n");
+				String s = _Px.getText().trim();
+				if(Polynomial.isValid(s)) {
+					try {
+						Px = new Polynomial(s).mod(modulus);
+						output.setText(output.getText() + "P = " + new PolynomialPoint(Px, Py, one) + "\n");
+						_Px.setText("" + Px);
+					} catch(NumberFormatException e1) {
+						output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+						_Px.setText("" + Px);
+					}
+				} else {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_Px.setText("" + Px);
+				}
 			}
 		});
 		
 		final JTextField _Py = new JTextField("" + Py + "        ");
 		_Py.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Py = new Polynomial(_Py.getText().trim());
-				output.setText(output.getText() + "P = " + new PolynomialPoint(Px, Py, one) + "\n");
+				String s = _Py.getText().trim();
+				if(Polynomial.isValid(s)) {
+					try {
+						Py = new Polynomial(s).mod(modulus);
+						output.setText(output.getText() + "P = " + new PolynomialPoint(Px, Py, one) + "\n");
+						_Py.setText("" + Py);
+					} catch(NumberFormatException e1) {
+						output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+						_Py.setText("" + Py);
+					}
+				} else {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_Py.setText("" + Py);
+				}
 			}
 		});
 		
 		final JTextField _Qx = new JTextField("" + Qx + "        ");
 		_Qx.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Qx = new Polynomial(_Qx.getText().trim());
-				output.setText(output.getText() + "Q = " + new PolynomialPoint(Qx, Qy, one) + "\n");
+				String s = _Qx.getText().trim();
+				if(Polynomial.isValid(s)) {
+					try {
+						Qx = new Polynomial(s).mod(modulus);
+						output.setText(output.getText() + "Q = " + new PolynomialPoint(Qx, Qy, one) + "\n");
+						_Qx.setText("" + Qx);
+					} catch(NumberFormatException e1) {
+						output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+						_Qx.setText("" + Qx);
+					}
+				} else {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_Qx.setText("" + Qx);
+				}
 			}
 		});
 		
 		final JTextField _Qy = new JTextField("" + Qy + "        ");
 		_Qy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Qy = new Polynomial(_Qy.getText().trim());
-				output.setText(output.getText() + "Q = " + new PolynomialPoint(Qx, Qy, one) + "\n");
+				String s = _Qy.getText().trim();
+				if(Polynomial.isValid(s)) {
+					try {
+						Qy = new Polynomial(s).mod(modulus);
+						output.setText(output.getText() + "Q = " + new PolynomialPoint(Qx, Qy, one) + "\n");
+						_Qy.setText("" + Qy);
+					} catch(NumberFormatException e1) {
+						output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+						_Qy.setText("" + Qy);
+					}
+				} else {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_Qy.setText("" + Qy);
+				}
 			}
 		});
 		
 		final JTextField _k = new JTextField("" + k + "        ");
 		_k.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				k = Long.parseLong(_k.getText().trim());
-				output.setText(output.getText() + "k = " + k + "\n");
+				try {
+					k = Long.parseLong(_k.getText().trim());
+					output.setText(output.getText() + "k = " + k + "\n");
+				} catch(NumberFormatException e1) {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_k.setText("" + k);
+				}
 			}
 		});
 		
@@ -262,8 +363,13 @@ public class BinaryPanel extends JPanel {
 		final JTextField _n = new JTextField("" + n + "        ");
 		_n.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				n = Integer.parseInt(_n.getText().trim());
-				output.setText(output.getText() + "Random curve selection will now generate " + n + " curves.\n");
+				try {
+					n = Integer.parseInt(_n.getText().trim());
+					output.setText(output.getText() + "Random curve selection will now generate " + n + " curves.\n");
+				} catch(NumberFormatException e1) {
+					output.setText(output.getText() + "There was an error parsing your input. Please try again.\n");
+					_n.setText("" + n);
+				}
 			}
 		});
 		

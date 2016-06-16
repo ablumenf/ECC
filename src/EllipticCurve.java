@@ -105,7 +105,8 @@ public class EllipticCurve {
 	public long pointOrder(Point G) {
 		List<Long> factors = ECMath.allFactors(order());
 		for(long l : factors) {
-			if(G.mult(l, getA(), getB(), getP()).equals(new Point(0, 1, 0))) {
+			if(G.mult(l, getA(), getB(), getP()).equals(new Point())) {
+				System.out.println(l);
 				return l;
 			}
 		}

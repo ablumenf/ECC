@@ -7,11 +7,9 @@
  * are used instead of HashMaps since we're working mod 2: if a degree is in the
  * underlying data structure, the only possible value would be 1.
  * 
- * You can enter polynomials in terms of whatever variable you want. a^5 + 1 will work,
- * as will z^2 + z + 1. But z^5 + a^2 + x + 1 will be intepreted as z^5 + z^2 + z + 1.
- * There is no support for multivariable polynomials. Even if you enter a^5 + 1, it will
- * print (via toString()) as z^5 + 1. Probably less confusing to just input polynomials
- * using powers of z.
+ * You should enter polynomials in terms of z. E.g., z^2 + z + 1. Use lower case z.
+ * You can also enter coefficients in front of the z. E.g., 3z. But these coefficients
+ * will get reduced mod 2.
  */
 
 import java.util.ArrayList;
@@ -31,36 +29,16 @@ public class Polynomial {
 	public Polynomial(String s) {
 		poly = new HashSet<Integer>();
 		s = s.replaceAll("\\s+", ""); // remove spaces
-		if(!s.isEmpty()) {
-			int i = 0;
-			while(i < s.length()) {
-				char current = s.charAt(i);
-				if(current >= 'a' && current <= 'z') {
-					if(s.length() >= i+2 && s.charAt(i+1) == '^' && s.charAt(i+2) >= '0' && s.charAt(i+2) <= '9') {
-						//poly.add(Integer.parseInt("" + s.charAt(i+2))); // add z^i
-						String degree;
-						int idx = s.indexOf('+', i+2);
-						if(idx != -1) {
-							degree = s.substring(i+2, idx); // take care of degrees with >= 2 digits
-						} else {
-							degree = s.substring(i+2, s.length()); // for stuff like z^10 without any terms afterward
-						}
-						poly.add(Integer.parseInt(degree));
-					}
-					if(s.length() >= i+2 && s.charAt(i+1) == '+') { // if we see z + ...
-						poly.add(1);
-					}
-					if(i == s.length()-1) { // add z = z^1
-						poly.add(1);
-					}
+		s = s.replaceAll("\\+", " "); // change +'s to spaces because of regex issues
+		String[] split = s.split(" +");
+		for(int i = 0; i < split.length; i++) { // split polynomial into monomials
+			int val = parseMonomial(split[i]);
+			if(val != -1) {
+				if(!poly.contains(val)) {
+					poly.add(val);
+				} else {
+					poly.remove(val);
 				}
-				if(current == '1' && i > 0 && s.charAt(i-1) == '+') { // if we see ... + 1
-					poly.add(0);
-				}
-				if(current == '1' && i == s.length()-1) { // if we see 1
-					poly.add(0);
-				}
-				i++;
 			}
 		}
 	}
@@ -162,6 +140,10 @@ public class Polynomial {
 	}
 	
 	public Polynomial inverse(Polynomial q) { /* p^(ord-1) = 1 by Lagrange's Theorem, so p^(ord-2) = p^(-1) */
+		Polynomial temp = null;
+		if(this.equals(new Polynomial())) {
+			return temp;
+		}
 		return modExp((1<<q.degree()) - 2, q);
 	}
 	
@@ -226,6 +208,78 @@ public class Polynomial {
 		return p;
 	}
 	
+	public static boolean isValid(String s) {
+		byte lastType = -1; // 0 corresponds to z, 1 corresponds to ^, 2 corresponds to number, 3 corresponds to +
+		char c = s.charAt(0);
+		if(c == 'z') {
+			lastType = 0;
+		} else if(c >= '0' && c <= '9') {
+			lastType = 2;
+		} else {
+			return false;
+		}
+		
+		for(int i = 1; i < s.length(); i++) {
+			c = s.charAt(i);
+			if(c == 'z') {
+				if(lastType != 2 && lastType != 3) {
+					return false;
+				}
+				lastType = 0;
+			}
+			if(c == '^') {
+				if(lastType != 0) {
+					return false;
+				}
+				lastType = 1;
+			}
+			if(c >= '0' && c <= '9') {
+				if(lastType == 0) {
+					return false;
+				}
+				lastType = 2;
+			}
+			if(c == '+') {
+				if(lastType != 0 && lastType != 2) {
+					return false;
+				}
+				lastType = 3;
+			}
+		}
+		return true;
+	}
+	
+	public static int parseMonomial(String s) {
+		if(!s.isEmpty()) {
+			char c = s.charAt(0);
+			if(c == 'z') {
+				if(s.length() == 1) {
+					return 1;
+				} else {
+					return Integer.parseInt(s.substring(2, s.length()));
+				}
+			}
+			if(c >= '0' && c <= '9') {
+				int zIndex = s.indexOf('z');
+				if(zIndex != -1) {
+					int coeff = Integer.parseInt(s.substring(0, zIndex)) % 2;
+					if(s.indexOf('^') == -1) { // if we see nz
+						if(coeff != 0) {
+							return 1;
+						}
+					} else { // if we see nz^i
+						if(coeff != 0) {
+							return Integer.parseInt(s.substring(zIndex+2, s.length()));
+						}
+					}
+				} if(zIndex == -1 && Integer.parseInt(s) % 2 == 1) {
+					return 0;
+				}
+			}
+		}
+		return -1; // 0 polynomial
+	}
+	
 	public static void main(String[] args) {
 		Polynomial p = new Polynomial("z^4 + z^3 + z^2 + z");
 		System.out.println(p);
@@ -245,8 +299,12 @@ public class Polynomial {
 		p = new Polynomial("1");
 		System.out.println(p);
 		
-		p = new Polynomial("z^10 + a^5 + 1");
-		System.out.println(p.equals(new Polynomial()));
 		System.out.println(new Polynomial().equals(new Polynomial()));
+		p = new Polynomial("z^2 + z + z + 1 + z^3 + z^2");
+		System.out.println(p);
+		System.out.println(isValid("3z"));
+		
+		p = new Polynomial("2z^2 + z^1");
+		System.out.println(p);
 	}
 }
