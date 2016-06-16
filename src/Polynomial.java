@@ -30,7 +30,7 @@ public class Polynomial {
 		poly = new HashSet<Integer>();
 		s = s.replaceAll("\\s+", ""); // remove spaces
 		s = s.replaceAll("\\+", " "); // change +'s to spaces because of regex issues
-		String[] split = s.split(" +");
+		String[] split = s.split(" ");
 		for(int i = 0; i < split.length; i++) { // split polynomial into monomials
 			int val = parseMonomial(split[i]);
 			if(val != -1) {
