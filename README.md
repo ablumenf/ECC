@@ -4,7 +4,7 @@
 ![Elliptic Curve Cryptography (ECC) Toolkit](misc.jpg)
 
 Elliptic Curve Cryptography (ECC) Toolkit <br>
-Last Updated: June 15, 2016 <br>
+Last Updated: June 16, 2016 <br>
 Author: Aaron Blumenfeld
 
 ## ABOUT:
@@ -51,7 +51,7 @@ polynomial and R(z), respectively.
 - BinaryEllipticCurve.java: A class that implements elliptic curves over binary fields, including logarithms, orders, as well as lists of points. Also a few static methods for listing elliptic curves.
 - BinaryPanel.java: An extension of JPanel for exploring elliptic curves over binary fields.
 - ECC.java: The driver for the GUI application.
-- ECMath.java: Various static method with implementations of mathematical functions (modular exponentiation, inverses, square roots, primality testing, etc.)
+- ECMath.java: Various static methods with implementations of mathematical functions (modular exponentiation, inverses, square roots, primality testing, etc.)
 - EllipticCurve.java: A class that implements elliptic curves, including logarithms, orders, as well as lists of points. Also a few static methods for listing elliptic curves.
 - MiscPanel.java: An extension of JPanel for exploring various computations useful for elliptic curve cryptography (modular exponentiation, polynomial inverses, etc.).
 - Point.java: A class that implements points. 3D points are used for projective coordinates, but they're only printed as 2D points. Point addition and multiplication are implemented here.
