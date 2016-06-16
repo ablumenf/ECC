@@ -38,15 +38,15 @@ the point is not on the curve. Perhaps it can be instructive to see what
 happens with the calculations in this situation.
 
 There is also a Misc. tab, which includes support for exponentiation, inverses,
-and square roots (mod p), as well as addition, multiplication, inverses, and 
-exponentiation of polynomials in finite fields.
+and square roots (mod p), as well as addition, multiplication, inverses, 
+exponentiation, and square roots of polynomials in finite fields.
 
 When you enter a value in the GF(p) tab (other than the modulus, k, and n), it
 automatically gets reduced mod p. Similarly, when you enter a polynomial in
 the GF(2^r) and Misc. tabs, it automatically gets reduced mod the irreducible
 polynomial and R(z), respectively.
 
-## FILES:
+## SOURCE FILES:
 
 - BinaryEllipticCurve.java: A class that implements elliptic curves over binary fields, including logarithms, orders, as well as lists of points. Also a few static methods for listing elliptic curves.
 - BinaryPanel.java: An extension of JPanel for exploring elliptic curves over binary fields.

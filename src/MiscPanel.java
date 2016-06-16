@@ -285,10 +285,19 @@ public class MiscPanel extends JPanel {
 			}
 		});
 		
+		JButton polySqrt = new JButton("sqrt(P(z)) (mod R(z))");
+		polySqrt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Polynomial rval = p.sqrt(r);
+				output.setText(output.getText() + "sqrt(" + p + ") = (" + rval + ") (mod " + r + ")\n");
+			}
+		});
+		
 		polyPan1.add(add);
 		polyPan1.add(mult);
 		polyPan2.add(polyModExp);
 		polyPan2.add(polyInverse);
+		polyPan2.add(polySqrt);
 		
 		JPanel clearPan = new JPanel();
 		clearPan.setLayout(new FlowLayout());

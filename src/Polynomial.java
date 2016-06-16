@@ -147,6 +147,11 @@ public class Polynomial {
 		return modExp((1<<q.degree()) - 2, q);
 	}
 	
+	public Polynomial sqrt(Polynomial q) {
+		int m = q.degree();
+		return modExp((1<<(m-1)), q);
+	}
+	
 	public String toString() {	
 		if(poly.isEmpty()) {
 			return "0";
@@ -304,7 +309,7 @@ public class Polynomial {
 		System.out.println(p);
 		System.out.println(isValid("3z"));
 		
-		p = new Polynomial("2z^2 + z^1");
-		System.out.println(p);
+		p = new Polynomial("z^3 + z^2");
+		System.out.println(p.sqrt(new Polynomial("z^4 + z + 1")));
 	}
 }
