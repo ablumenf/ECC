@@ -15,7 +15,7 @@
  * iff y^2 = b has a solution. But it turns out that every element of the finite field
  * F_(2^k) has a square root, so there is always a point on the curve of the form (0, y).
  * One constructive way to see this is that b^(2^m-1) = 1 by Lagrange's Theorem, so
- * b^(2^m) (b^(2^(m-1)))^2 = b.
+ * b^(2^m) = (b^(2^(m-1)))^2 = b.
  * 
  * There are also supersingular elliptic curves over binary fields. These have the form
  * y^2 + cy = x^3 + ax + b. I have not implemented these. Although these can be interesting
@@ -116,19 +116,27 @@ public class BinaryEllipticCurve {
 		return count;
 	}
 	
-	public long pointOrder(PolynomialPoint G) {
-		List<Long> factors = ECMath.allFactors(order());
+	public long pointOrder(PolynomialPoint G) {		
+		Polynomial a = getA();
+		Polynomial b = getB();
+		Polynomial modulus = getModulus();
 		PolynomialPoint infinity = new PolynomialPoint();
-		for(long l : factors) {
-			if(G.mult(l, getA(), getB(), getModulus()).equals(infinity)) {
-				return l;
+		long temp = 1 << getModulus().degree(); // use max possible order to avoid O(q^2) curve order computation
+		long N = (long)(temp + 1 + 2*Math.sqrt(temp));
+		PolynomialPoint P = new PolynomialPoint(); // P = infinity
+		
+		for(int i = 1; i <= N; i++) {
+			P = P.add(G, a, b, modulus);
+			if(P.equals(infinity)) {
+				return i;
 			}
 		}
 		return -1; /* error */
 	}
 	
 	public long log(PolynomialPoint P, PolynomialPoint G) { /* return k, where kG = P */
-		long N = pointOrder(G);
+		long temp = 1 << getModulus().degree(); // use max possible order to avoid O(q^2) curve order computation
+		long N = (long)(temp + 1 + 2*Math.sqrt(temp));
 		PolynomialPoint B = new PolynomialPoint(); // B = infinity
 		for(long i = 1; i <= N; i++) {
 			if((B = G.add(B, getA(), getB(), getModulus())).equals(P)) {
@@ -154,7 +162,7 @@ public class BinaryEllipticCurve {
 				rightside = rightside.add(a.mult(x.modExp(2, modulus)).mod(modulus)); // x^3 + ax^2
 				rightside = rightside.add(b); // x^3 + ax^2 + b
 				if(leftside.equals(rightside)) {
-					s += new PolynomialPoint(x, y, new Polynomial("z^0")) + ", ";
+					s += new PolynomialPoint(x, y, new Polynomial("1")) + ", ";
 				}
 			}
 		}
@@ -175,12 +183,8 @@ public class BinaryEllipticCurve {
 	}
 	
 	public static String listECs(long m, Polynomial irred) throws IOException {
-		long temp = m;
-		while(temp > 1) {
-			if((temp & 1) == 1) {
-				return "" + m + " is not a power of 2.";
-			}
-			temp >>= 1;
+		if((m & (m-1)) != 0) { // only powers of 2 don't have this property
+			return "" + m + " is not a power of 2.";
 		}
 		if(m > 64) {
 			return "F_" + m + " is too large. Generate a smaller number of randomly generated curves, or choose F_m with m <= 64.";
@@ -207,12 +211,8 @@ public class BinaryEllipticCurve {
 	}
 	
 	public static String listRandomECs(long m, Polynomial irred, long n) throws IOException {
-		long temp = m;
-		while(temp > 1) {
-			if((temp & 1) == 1) {
-				return "" + m + " is not a power of 2.";
-			}
-			temp >>= 1;
+		if((m & (m-1)) != 0) { // only powers of 2 don't have this property
+			return "" + m + " is not a power of 2.";
 		}
 		int count = 0;
 		BinaryEllipticCurve E;
@@ -234,21 +234,21 @@ public class BinaryEllipticCurve {
 	}
 	
 	public static void main(String[] args) throws IOException { /* method for testing */
-		BinaryEllipticCurve E = new BinaryEllipticCurve(new Polynomial("z^3"), new Polynomial("z^3 + z^0"), new Polynomial("z^4 + z^1 + z^0"));
+		BinaryEllipticCurve E = new BinaryEllipticCurve(new Polynomial("z^3"), new Polynomial("z^3 + 1"), new Polynomial("z^4 + z + 1"));
 		System.out.println(E.order());
 		System.out.println(E + "\n");
 		System.out.println(E.listPoints());
-		Polynomial irr = new Polynomial("z^10 + z^9 + z^4 + z^1 + z^0");
+		Polynomial irr = new Polynomial("z^10 + z^9 + z^4 + z + 1");
 		System.out.println(listRandomECs(1024, irr, 10));
-		PolynomialPoint G = new PolynomialPoint(new Polynomial("z^3"), new Polynomial("z^0"), new Polynomial("z^0"));
+		PolynomialPoint G = new PolynomialPoint(new Polynomial("z^3"), new Polynomial("1"), new Polynomial("1"));
 		System.out.println(E.pointOrder(G));
 		System.out.println(E.listGmults(G));
-		PolynomialPoint P = new PolynomialPoint(new Polynomial("z^3 + z^1 + z^0"), new Polynomial("z^1"), new Polynomial("z^0"));
+		PolynomialPoint P = new PolynomialPoint(new Polynomial("z^3 + z + 1"), new Polynomial("z"), new Polynomial("1"));
 		System.out.println(E.log(P, G));
 		
 		irr = new Polynomial("z^6 + z + 1");
 		for(int i = 1; i <= 1; i++) {
-			System.out.println(listECs(64, irr));
+			System.out.println(listECs(65, irr));
 		}
 	}
 }

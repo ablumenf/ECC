@@ -4,7 +4,7 @@
 ![Elliptic Curve Cryptography (ECC) Toolkit](misc.jpg)
 
 Elliptic Curve Cryptography (ECC) Toolkit <br>
-Last Updated: June 16, 2016 <br>
+Last Updated: July 21, 2016 <br>
 Author: Aaron Blumenfeld
 
 ## ABOUT:
@@ -27,6 +27,9 @@ drop-down menu. Only binary fields with up to 64 elements are supported
 for generating lists of all curves. This is because the number of curves
 over these fields grows too quickly as the size of the field grows. For
 larger fields, you can generate a fixed number of randomly chosen curves.
+
+To use larger fields (either prime fields or binary fields), you can use
+the Python version of this program. See github.com/ablumenf/ECCpy for details.
 
 A discrete logarithm of -1 indicates an error. This means that there is
 no solution. For example, if you choose a non-cyclic elliptic curve group

@@ -76,35 +76,37 @@ public class PolynomialPoint {
     	if(this.equals(infinity)) { /* if P = infinity ==> P + Q = Q */
     		return Q;
     	}
+    	// point doubling
     	if(new PolynomialPoint(getX().mod(modulus), getY().mod(modulus), getZ().mod(modulus)).equals(Q)) {
-    		Polynomial z3 = x.mult(x);
-    		Polynomial temp = z.mult(z);
+    		Polynomial z3 = getX().mult(getX());
+    		Polynomial temp = getZ().mult(getZ());
     		z3 = z3.mult(temp);
-    		Polynomial x3 = x.mult(x);
+    		Polynomial x3 = getX().mult(getX());
     		x3 = x3.mult(x3);
-    		temp = z.mult(z);
+    		temp = getZ().mult(getZ());
     		temp = temp.mult(temp);
     		temp = temp.mult(b);
     		x3 = x3.add(temp);
-    		Polynomial y3 = z.mult(z);
+    		Polynomial y3 = getZ().mult(getZ());
     		y3 = y3.mult(y3);
     		y3 = b.mult(y3).mult(z3);
-    		temp = a.mult(z3).add(y.mult(y)).add(b.mult(z.modExp(4, modulus)));
+    		temp = a.mult(z3).add(getY().mult(getY())).add(b.mult(getZ().modExp(4, modulus)));
     		temp = x3.mult(temp);
     		y3 = y3.add(temp);
     		return new PolynomialPoint(x3, y3, z3);
     	}
+    	// point addition
     	Q.setX(Q.getX().mult(Q.getZ().inverse(modulus)));
     	Polynomial temp = Q.getZ().mult(Q.getZ());
     	temp = temp.inverse(modulus);
     	Q.setY(Q.getY().mult(temp));
-    	Q.setZ(new Polynomial("z^0"));
-    	Polynomial A = Q.getY().mult(z.mult(z));
-    	A = A.add(y);
-    	Polynomial B = Q.getX().mult(z);
-    	B = B.add(x);
-    	Polynomial C = z.mult(B);
-    	temp = a.mult(z).mult(z);
+    	Q.setZ(new Polynomial("1"));
+    	Polynomial A = Q.getY().mult(getZ().mult(getZ()));
+    	A = A.add(getY());
+    	Polynomial B = Q.getX().mult(getZ());
+    	B = B.add(getX());
+    	Polynomial C = getZ().mult(B);
+    	temp = a.mult(getZ()).mult(getZ());
     	temp = C.add(temp);
     	Polynomial D = B.mult(B).mult(temp);
     	Polynomial z3 = C.mult(C);
@@ -139,7 +141,7 @@ public class PolynomialPoint {
     }
     
     public PolynomialPoint mult(long k, Polynomial a, Polynomial b, Polynomial modulus) { /* compute kP using repeated doubling */
-    	long A = Math.floorMod(k, new BinaryEllipticCurve(a, b, modulus).order()); /* reduce mod N, the order of E */
+    	long A = k;
     	PolynomialPoint B = new PolynomialPoint();
     	PolynomialPoint C = new PolynomialPoint(this);
     	while(A > 0) {
@@ -162,11 +164,11 @@ public class PolynomialPoint {
 
     public static void main(String[] args) { /* method for testing */
     	Polynomial x = new Polynomial("z^3");
-    	Polynomial y = new Polynomial("z^0");
-    	Polynomial z = new Polynomial("z^0");
+    	Polynomial y = new Polynomial("1");
+    	Polynomial z = new Polynomial("1");
     	Polynomial a = new Polynomial("z^3");
-    	Polynomial b = new Polynomial("z^3 + z^0");
-    	Polynomial m = new Polynomial("z^4 + z^1 + z^0");
+    	Polynomial b = new Polynomial("z^3 + 1");
+    	Polynomial m = new Polynomial("z^4 + z + 1");
     	PolynomialPoint P = new PolynomialPoint();
     	PolynomialPoint Q = new PolynomialPoint(x, y, z);
     	for(int i = 1; i <= 22; i++) {
@@ -174,5 +176,11 @@ public class PolynomialPoint {
     		System.out.println("" + i + " " + P);
     		System.out.println("" + i + " " + Q.mult(i, a, b, m));		
     	}
+    	
+    	P = new PolynomialPoint(new Polynomial("z^3 + z^2"), new Polynomial("z^3 + z^2"), new Polynomial("1"));
+    	Q = new PolynomialPoint(new Polynomial("z^3 + 1"), new Polynomial("z^3 + z^2 + z + 1"), new Polynomial("1"));
+    	PolynomialPoint R = P.addHelper(Q, a, b, m);
+    	System.out.println(R);
+    	System.out.println(R.getZ());
     }
 }

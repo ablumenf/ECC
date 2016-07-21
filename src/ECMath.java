@@ -150,7 +150,7 @@ public class ECMath {
 		long rval = 0;
 		while(!isPrime(rval)) {
 			rval = Math.floorMod(rand.nextLong(), (int)Math.pow(10, n));
-			if(rval <= 3) {
+			if(rval <= 3) { // want p >= 5
 				rval = 0;
 			}
 		}

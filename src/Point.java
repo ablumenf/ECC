@@ -63,7 +63,7 @@ public class Point {
     	if(this.equals(new Point())) {
     		return "infinity";
     	}
-    	return "(" + x + " , " + y + ")";
+    	return "(" + x + ", " + y + ")";
     }
     
     public Point addHelper(Point Q, long a, long b, long p) { /* uses projective coordinates formulas from Washington's Elliptic Curves text.
@@ -106,7 +106,7 @@ public class Point {
     }
     
     public Point add(Point Q, long a, long b, long p) { /* call addhelper and
-	    reduce the coordinate at the end, since the result is an equivalence
+	    reduce the coordinates at the end, since the result is an equivalence
 	         class, so it must be scaled back down to reduced coordinates */
     	Point R = addHelper(Q, a, b, p);
     	if(Math.floorMod(R.getZ(), p) == 0) {
@@ -125,7 +125,7 @@ public class Point {
     }
     
     public Point mult(long k, long a, long b, long p) { /* compute kP using repeated doubling */
-    	long A = Math.floorMod(k, new EllipticCurve(a, b, p).order()); /* reduce mod N, the order of E */
+    	long A = k;
     	Point B = new Point(0, 1, 0);
     	Point C = new Point(this);
     	while(A > 0) {
@@ -160,8 +160,13 @@ public class Point {
 
     public static void main(String[] args) { /* method for testing */
         Point P = new Point(5, 1, 1);
+        Point Q = new Point(6, 3, 1);
+        System.out.println(Q.add(P, 2, 2, 17));
         for(int i = 1; i < 20; i++) {
         	System.out.println(P.mult(i, 2, 2, 17));
         }
+        
+        P = new Point(71264, 344, 1);
+        System.out.println(P.mult(2, 64379, 22921, 71933));
     }
 }

@@ -106,7 +106,6 @@ public class EllipticCurve {
 		List<Long> factors = ECMath.allFactors(order());
 		for(long l : factors) {
 			if(G.mult(l, getA(), getB(), getP()).equals(new Point())) {
-				System.out.println(l);
 				return l;
 			}
 		}
@@ -243,6 +242,11 @@ public class EllipticCurve {
 		System.out.println(listECs(17));
 		System.out.println(listPrimeECs(47));
 		System.out.println(listRandomPrimeECs(100, 997));
+		
+		E = new EllipticCurve(64379, 22921, 71933);
+		G = new Point(11938, 5106, 1);
+		System.out.println(E.pointOrder(G));
+		System.out.println(G.mult(2, 64379, 22921, 71933));
 	}
 }
 

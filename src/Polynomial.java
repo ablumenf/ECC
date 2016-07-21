@@ -28,7 +28,7 @@ public class Polynomial {
 	
 	public Polynomial(String s) {
 		poly = new HashSet<Integer>();
-		s = s.replaceAll("\\s+", ""); // remove spaces
+		s = s.replaceAll(" ", ""); // remove spaces
 		s = s.replaceAll("\\+", " "); // change +'s to spaces because of regex issues
 		String[] split = s.split(" ");
 		for(int i = 0; i < split.length; i++) { // split polynomial into monomials
@@ -129,7 +129,7 @@ public class Polynomial {
 	
 	public Polynomial modExp(long k, Polynomial q) {
 		Polynomial temp = new Polynomial(this);
-		Polynomial rval = new Polynomial("z^0");
+		Polynomial rval = new Polynomial("1");
 		while(k > 0) {
 			if((k & 1) == 1) /* if k is odd */
 				rval = rval.mult(temp).mod(q); /* rval = rval * temp (mod q) */
@@ -214,6 +214,9 @@ public class Polynomial {
 	}
 	
 	public static boolean isValid(String s) {
+		if(s.isEmpty()) {
+			return true;
+		}
 		byte lastType = -1; // 0 corresponds to z, 1 corresponds to ^, 2 corresponds to number, 3 corresponds to +
 		char c = s.charAt(0);
 		if(c == 'z') {
@@ -277,7 +280,8 @@ public class Polynomial {
 							return Integer.parseInt(s.substring(zIndex+2, s.length()));
 						}
 					}
-				} if(zIndex == -1 && Integer.parseInt(s) % 2 == 1) {
+				}
+				if(zIndex == -1 && Integer.parseInt(s) % 2 == 1) {
 					return 0;
 				}
 			}
@@ -311,5 +315,7 @@ public class Polynomial {
 		
 		p = new Polynomial("z^3 + z^2");
 		System.out.println(p.sqrt(new Polynomial("z^4 + z + 1")));
+		
+		System.out.println(new Polynomial("z^4+z^3+z^2+z").mult(new Polynomial("z^6+z^3+z^2+z")));
 	}
 }
