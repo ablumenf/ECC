@@ -1,3 +1,5 @@
+package src;
+
 /**
  * @author Aaron Blumenfeld
  * This is an implementation of a polynomial mod 2. I used hashing
@@ -229,6 +231,9 @@ public class Polynomial {
 		
 		for(int i = 1; i < s.length(); i++) {
 			c = s.charAt(i);
+			if(c != 'z' && c != '^' && c != '+' && (c < '0' || c > '9')) {
+				return false;
+			}
 			if(c == 'z') {
 				if(lastType != 2 && lastType != 3) {
 					return false;
@@ -290,32 +295,7 @@ public class Polynomial {
 	}
 	
 	public static void main(String[] args) {
-		Polynomial p = new Polynomial("z^4 + z^3 + z^2 + z");
+		Polynomial p = new Polynomial("z^2 + z + z + 1 + z^3 + z^2");
 		System.out.println(p);
-		Polynomial q = new Polynomial("z^2 + z + 1");
-		System.out.println(q);
-		System.out.println(p.add(q));
-		System.out.println(q.multHelper(2));
-		System.out.println(p.mult(q));
-		System.out.println(p.mod(q) + "\n");
-		
-		System.out.println("random " + random(5));
-		System.out.println(new Polynomial("z^2").inverse(new Polynomial("z^4 + z + 1")));
-		
-		p = new Polynomial("z^3");
-		System.out.println(p);
-		
-		p = new Polynomial("1");
-		System.out.println(p);
-		
-		System.out.println(new Polynomial().equals(new Polynomial()));
-		p = new Polynomial("z^2 + z + z + 1 + z^3 + z^2");
-		System.out.println(p);
-		System.out.println(isValid("3z"));
-		
-		p = new Polynomial("z^3 + z^2");
-		System.out.println(p.sqrt(new Polynomial("z^4 + z + 1")));
-		
-		System.out.println(new Polynomial("z^4+z^3+z^2+z").mult(new Polynomial("z^6+z^3+z^2+z")));
 	}
 }

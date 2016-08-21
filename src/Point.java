@@ -1,3 +1,5 @@
+package src;
+
 /**
  * @author Aaron Blumenfeld
  * The following program implements point addition and multiplication
@@ -156,17 +158,5 @@ public class Point {
 		B.setY(Math.floorMod(B.getY(), p)); /* reduce coordinates mod p */
 		B.setZ(Math.floorMod(B.getZ(), p));
     	return B;
-    }
-
-    public static void main(String[] args) { /* method for testing */
-        Point P = new Point(5, 1, 1);
-        Point Q = new Point(6, 3, 1);
-        System.out.println(Q.add(P, 2, 2, 17));
-        for(int i = 1; i < 20; i++) {
-        	System.out.println(P.mult(i, 2, 2, 17));
-        }
-        
-        P = new Point(71264, 344, 1);
-        System.out.println(P.mult(2, 64379, 22921, 71933));
     }
 }

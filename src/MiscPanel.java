@@ -1,3 +1,5 @@
+package src;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -5,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
-
 import javax.swing.*;
 
 public class MiscPanel extends JPanel {

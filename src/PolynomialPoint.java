@@ -1,3 +1,5 @@
+package src;
+
 /**
  * @author Aaron Blumenfeld
  * The following program implements point addition and multiplication
@@ -160,27 +162,5 @@ public class PolynomialPoint {
     		}
     	}
     	return B;
-    }
-
-    public static void main(String[] args) { /* method for testing */
-    	Polynomial x = new Polynomial("z^3");
-    	Polynomial y = new Polynomial("1");
-    	Polynomial z = new Polynomial("1");
-    	Polynomial a = new Polynomial("z^3");
-    	Polynomial b = new Polynomial("z^3 + 1");
-    	Polynomial m = new Polynomial("z^4 + z + 1");
-    	PolynomialPoint P = new PolynomialPoint();
-    	PolynomialPoint Q = new PolynomialPoint(x, y, z);
-    	for(int i = 1; i <= 22; i++) {
-    		P = P.add(Q, a, b, m);
-    		System.out.println("" + i + " " + P);
-    		System.out.println("" + i + " " + Q.mult(i, a, b, m));		
-    	}
-    	
-    	P = new PolynomialPoint(new Polynomial("z^3 + z^2"), new Polynomial("z^3 + z^2"), new Polynomial("1"));
-    	Q = new PolynomialPoint(new Polynomial("z^3 + 1"), new Polynomial("z^3 + z^2 + z + 1"), new Polynomial("1"));
-    	PolynomialPoint R = P.addHelper(Q, a, b, m);
-    	System.out.println(R);
-    	System.out.println(R.getZ());
     }
 }

@@ -1,3 +1,5 @@
+package src;
+
 /**
  * @author Aaron Blumenfeld
  * This class implements various static methods for math
@@ -166,16 +168,5 @@ public class ECMath {
 			}
 		}
 		return factors;
-	}
-
-	public static void main(String[] args) { /* method for testing */
-		System.out.println(allFactors(1200));
-		for(int i = 0; i < 17; i++) {
-			System.out.println(jacobi(i*i*i + 2*i + 2, 17));
-		}
-		for(long i = 100; i < 200; i++) {
-			System.out.println(i + " " + isPrime(i));
-		}
-		System.out.println(randomPrime(4));
 	}
 }

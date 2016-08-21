@@ -1,3 +1,5 @@
+package src;
+
 /**
  * @author Aaron Blumenfeld
  * This is a basic Java Swing application to implement the most commonly
@@ -39,7 +41,9 @@
  */
 
 import java.awt.Dimension;
+
 import javax.swing.*;
+
 import java.io.IOException;
 
 public class ECC extends JFrame {
