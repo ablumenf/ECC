@@ -62,7 +62,9 @@ public class Polynomial {
 		return max;
 	}
 	
-	public boolean equals(Polynomial q) {
+	@Override
+	public boolean equals(Object other) {
+		Polynomial q = (Polynomial)other;
 		int pTerms = 0;
 		for(int i : poly) {
 			pTerms++;

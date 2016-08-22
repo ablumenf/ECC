@@ -234,21 +234,12 @@ public class EllipticCurve {
 	
 	public static void main(String[] args) { /* method for testing */
 		EllipticCurve E = new EllipticCurve(2, 2, 17);
-		System.out.println(E);
-		System.out.println(E.isEC());
 		Point G = new Point(5, 1, 1);
-		Point P = new Point(0, 6, 1);
-		System.out.println(E.log(P, G));
 		System.out.println(E.listGmults(G));
 		System.out.println(E.listPoints());
 		System.out.println(listECs(17));
 		System.out.println(listPrimeECs(47));
 		System.out.println(listRandomPrimeECs(100, 997));
-		
-		E = new EllipticCurve(64379, 22921, 71933);
-		G = new Point(11938, 5106, 1);
-		System.out.println(E.pointOrder(G));
-		System.out.println(G.mult(2, 64379, 22921, 71933));
 	}
 }
 

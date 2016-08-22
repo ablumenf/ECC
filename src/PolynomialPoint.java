@@ -57,7 +57,9 @@ public class PolynomialPoint {
     	this.z = z;
     }
 
-    public boolean equals(PolynomialPoint Q) {
+    @Override
+    public boolean equals(Object other) {
+    	PolynomialPoint Q = (PolynomialPoint)other;
     	return this.x.equals(Q.getX()) && this.y.equals(Q.getY()) && this.z.equals(Q.getZ());
     }
 

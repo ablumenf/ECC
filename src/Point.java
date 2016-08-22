@@ -57,7 +57,9 @@ public class Point {
     	this.z = z;
     }
 
-    public boolean equals(Point Q) {
+    @Override
+    public boolean equals(Object other) {
+    	Point Q = (Point)other;
     	return this.x == Q.getX() && this.y == Q.getY() && this.z == Q.getZ();
     }
 

@@ -8,13 +8,13 @@ public class PrimeTest {
 	@Test
 	public void Prime() {
 		boolean rval = ECMath.isPrime(118428421);
-		assertEquals(true, rval);
+		assertTrue(rval);
 	}
 	
 	@Test
 	public void Composite() {
 		boolean rval = ECMath.isPrime(1197397); // = 997 * 1201
-		assertEquals(false, rval);
+		assertFalse(rval);
 	}
 	
 	@Test

@@ -15,7 +15,6 @@ public class PolynomialPointTest {
     	Polynomial m = new Polynomial("z^4 + z + 1");
     	PolynomialPoint P = new PolynomialPoint(x, y, z);
     	PolynomialPoint result = P.mult(5, a, b, m);
-    	System.out.println(result);
-    	assertTrue(new PolynomialPoint(new Polynomial("z^3 + z + 1"), new Polynomial("z"), new Polynomial("1")).equals(result));
+    	assertEquals(new PolynomialPoint(new Polynomial("z^3 + z + 1"), new Polynomial("z"), new Polynomial("1")), result);
 	}
 }
